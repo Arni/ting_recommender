@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ * Ting expansion search module main file.
+ */
+
+
+
+//function ting_expansion_search_menu() {
+//  $items = array();
+//
+//
+//  $items['ting/expansionsearch'] = array(
+//    'title' => 'Retreives count of search results for expanded profiles',
+//    'page callback' => 'ting_expansion_search_count',
+//    'access arguments' => array('access content'),
+//    'type' => MENU_CALLBACK,
+//  );
+//
+//
+//  return $items;
+//}
+//
+//function ting_expansion_search_theme($existing, $type, $theme, $path) {
+//  return array(
+//      'ting_expansion_search' => array(
+//          'variables' => array(
+//              'links' => NULL,
+//          ),
+//          'template' => 'ting-expansion-search',
+//          'path' => $path . '/templates',
+//      ),
+//  );
+//}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function ting_recommender_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
