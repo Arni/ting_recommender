@@ -25,7 +25,7 @@ function ting_recommender_content_type_render($subtype, $conf, $panel_args, $con
   drupal_add_js('https://cdn.bibspire.dk/ddbcms.js', 'external');
   
   // Set block content.
-  $block->content = '';
+  $block->content = '<div></div>';
   return $block;
 }
 
