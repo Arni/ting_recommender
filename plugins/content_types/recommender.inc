@@ -12,7 +12,10 @@ $plugin = array(
   //'edit form' => 'ting_inspiration_list_content_type_edit_form',
   'render callback' => 'ting_recommender_content_type_render',
   'category' => t('Ting'),
-  'required context' => new ctools_context_required(t('Ting object'), 'ting_object'),
+  'required context' => array(
+    new ctools_context_optional(t('Ting object'), 'ting_object'),
+    new ctools_context_optional(t('Ting collection'), 'ting_collection'),
+  ),
   'render last' => TRUE,
 );
 
@@ -22,13 +25,29 @@ $plugin = array(
 function ting_recommender_content_type_render($subtype, $conf, $panel_args, $context) {
   // Define the return block.
   $block = new stdClass();
+
   drupal_add_js('https://cdn.bibspire.dk/ddbcms.js', 'external');
-  $object = isset($context->data) ? ($context->data) : NULL;
-  $data = '';
-  if (isset($object)) {
-    $data = 'data-ting-object-id="' . $object->getId() . '"';
+
+  $pid = NULL;
+
+  // Ting object context.
+  if (!empty($context[0]->data)) {
+    /** @var \TingEntity */
+    $object = $context[0]->data;
+    $pid = $object->getId();
   }
-  
+  // Ting collection context.
+  elseif (!empty($context[1]->data)) {
+    /** @var \TingCollection */
+    $collection = $context[1]->data;
+    $pid = $collection->getId();
+  }
+
+  $data = '';
+  if (isset($pid)) {
+    $data = "data-ting-object-id='$pid'";
+  }
+
   // Set block content.
   $block->content = '<a name="recommender"></a><div id="ting-recommender" ' . $data . '></div>';
   return $block;
